@@ -56,11 +56,11 @@ window.fbAsyncInit = function() {
   function checkLoginState() {
     FB.getLoginStatus(function(response) {
       if (response.status === 'connected') {
-        console.log('Logged in: ' + response);
+        console.log('Logged in: ' + JSON.stringify(response));
       }
       else {
         FB.login(function(r) {
-          console.log('Login response: ' + r);
+          console.log('Login response: ' + JSON.stringify(r));
           if (r.status === 'connected') {
             // Logged into your app and Facebook.
             
