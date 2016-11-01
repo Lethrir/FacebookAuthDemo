@@ -57,6 +57,9 @@ window.fbAsyncInit = function() {
     FB.getLoginStatus(function(response) {
       if (response.status === 'connected') {
         console.log('Logged in: ' + JSON.stringify(response));
+        FB.api('/me', function(profile_details) {
+          console.log(JSON.stringify(profile_details));
+        });
       }
       else {
         FB.login(function(r) {
