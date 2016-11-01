@@ -77,6 +77,61 @@ window.fbAsyncInit = function() {
       }
     });
   }
+
+  function send_facebook_oauth_code() {
+    post('http://navigator.veracitysense.com:8888/event', {
+      channel: {type: "test"},
+      events: [{
+        type: "action",
+        event_name: "test",
+        data: {}
+      }],
+      customer: {
+        email_address: "kim@test.com"
+      },
+      resources: [
+        {
+          type: "test",
+          data: {tenant:"test_tenant"}
+        }
+      ]
+    }, function (res){
+      console.log(res);
+    });
+    return true;
+  }
+
+
+  function request(type, url, data, callback) {
+    var xhr = new XMLHttpRequest(),
+        fd;
+
+    if (typeof opts === 'function') {
+      callback = opts;
+      opts = null;
+    }
+
+    xhr.open(type, url);
+
+    if (type === 'POST') {
+      xhr.setRequestHeader("Content-type", "application/json");
+      fd = JSON.stringify(data);
+    }
+
+    xhr.onload = function () {
+      callback(JSON.parse(xhr.responseText));
+    };
+
+    var content = data ? fd : null;
+
+    console.log("Sending content " + content);
+
+    xhr.send(content);
+  }
+
+  var get = request.bind(this, 'GET');
+  var post = request.bind(this, 'POST');
+
 </script>
   
   </body>
