@@ -38,8 +38,6 @@
 <script>
 
 var login_res;
-var profile_res;
-var oauth_token;
 
 window.fbAsyncInit = function() {
     FB.init({
@@ -62,11 +60,11 @@ window.fbAsyncInit = function() {
     FB.getLoginStatus(function(response) {
       if (response.status === 'connected') {
         console.log('Logged in: ' + JSON.stringify(response));
-        oauth_token = response.accessToken;
+        login_res = response;
         FB.api('/me', { locale: 'en_US', fields: 'name, email' }, function(profile_details) {
           console.log('Check still have logged in res: ' + JSON.stringify(response));
           console.log(JSON.stringify(profile_details));
-          send_facebook_oauth_code(profile_details.email, response.accessToken);
+          send_facebook_oauth_code(profile_details.email, login_res.accessToken);
         });
       }
       else {
