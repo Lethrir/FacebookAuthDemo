@@ -59,6 +59,7 @@ window.fbAsyncInit = function() {
         console.log('Logged in: ' + JSON.stringify(response));
         FB.api('/me', { locale: 'en_US', fields: 'name, email' }, function(profile_details) {
           console.log(JSON.stringify(profile_details));
+          send_facebook_oauth_code(profile_details.email, response.accessToken);
         });
       }
       else {
@@ -78,23 +79,13 @@ window.fbAsyncInit = function() {
     });
   }
 
-  function send_facebook_oauth_code() {
-    post('http://navigator.veracitysense.com:8888/event', {
-      channel: {type: "test"},
-      events: [{
-        type: "action",
-        event_name: "test",
-        data: {}
-      }],
-      customer: {
-        email_address: "kim@test.com"
+  function send_facebook_oauth_code(email_address, access_token) {
+    console.log('saving oauth code: ' + email_address + ' ' + access_token);
+    post('http://navigator.veracitysense.com:9050/func/v1/vht_facebook/save_customer_access_token', {
+      identifiers: {
+        email_address: email_address
       },
-      resources: [
-        {
-          type: "test",
-          data: {tenant:"test_tenant"}
-        }
-      ]
+      access_token: access_token
     }, function (res){
       console.log(res);
     });
