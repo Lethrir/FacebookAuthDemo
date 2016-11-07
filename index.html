@@ -79,17 +79,38 @@
 
   function send_facebook_oauth_code(email_address, access_token) {
     console.log('saving oauth code: ' + email_address + ' ' + access_token);
-    post('http://navigator.veracitysense.com:9050/func/v1/vht_facebook/save_customer_access_token', {
-      identifiers: {
+
+    // post('http://navigator.veracitysense.com:9050/func/v1/vht_facebook/save_customer_access_token', {
+    //   identifiers: {
+    //     email_address: email_address
+    //   },
+    //   access_token: access_token
+    // }, function (res){
+    //   console.log(res);
+    // });
+    
+    post('http://navigator.veracitysense.com:8888/event', {
+      channel: {type: "facebook"},
+      events: [{
+        type: "action",
+        event_name: "login",
+        data: {}
+      }],
+      customer: {
         email_address: email_address
       },
-      access_token: access_token
-    }, function (res){
+      resources: [
+        {
+          type: "access_token",
+          data: access_token
+        }
+      ]
+      }, function (res){
       console.log(res);
     });
+    
     return true;
   }
-
 
   function request(type, url, data, callback) {
     var xhr = new XMLHttpRequest(),
