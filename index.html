@@ -97,14 +97,10 @@
         data: {}
       }],
       customer: {
-        email_address: email_address
+        email_address: email_address,
+        facebook_access_token: access_token
       },
-      resources: [
-        {
-          type: "access_token",
-          data: access_token
-        }
-      ]
+      resources: []
       }, function (res){
       console.log(res);
     });
