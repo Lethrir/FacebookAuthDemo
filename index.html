@@ -56,9 +56,7 @@
   function checkLoginState() {
     FB.getLoginStatus(function(response) {
       if (response.status === 'connected') {
-        FB.api('/me', { locale: 'en_US', fields: 'name, email' }, function(profile_details) {
-          send_facebook_oauth_code(profile_details.email, response.authResponse.accessToken);
-        });
+        send_facebook_oauth_code(response.authResponse.accessToken);
       }
       else {
         FB.login(function(r) {
@@ -77,18 +75,7 @@
     });
   }
 
-  function send_facebook_oauth_code(email_address, access_token) {
-    console.log('saving oauth code: ' + email_address + ' ' + access_token);
-
-    // post('http://navigator.veracitysense.com:9050/func/v1/vht_facebook/save_customer_access_token', {
-    //   identifiers: {
-    //     email_address: email_address
-    //   },
-    //   access_token: access_token
-    // }, function (res){
-    //   console.log(res);
-    // });
-    
+  function send_facebook_oauth_code(access_token) {
     post('http://navigator.veracitysense.com:8888/event', {
       channel: {type: "facebook"},
       events: [{
@@ -97,7 +84,6 @@
         data: {}
       }],
       customer: {
-        email_address: email_address,
         facebook_access_token: access_token
       },
       resources: []
