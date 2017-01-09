@@ -76,7 +76,7 @@
   }
 
   function send_facebook_oauth_code(access_token) {
-    post('http://navigator.veracitysense.com:8888/event', {
+    post('https://navigator.veracitysense.com:8888/event', {
       channel: {type: "facebook"},
       events: [{
         type: "action",
