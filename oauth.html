@@ -84,7 +84,9 @@ App Secret: <input type="text" id="app_secret" />
 
   function send_facebook_oauth_code(access_token) {
     var secret = document.getElementById('app_secret').value;
-    get('https://graph.facebook.com/oauth/access_token?grant_type=fb_exchange_token&client_id=' + appId + '&client_secret=' + secret + '&fb_exchange_token=' + access_token, {}, function (res) {
+    var url = 'https://graph.facebook.com/oauth/access_token?grant_type=fb_exchange_token&client_id='+appId+'&client_secret='+secret+'&fb_exchange_token=' + access_token;
+    console.log(url);
+    get(url, {}, function (res) {
       textArea = document.getElementById('oauth_result');
       textArea.innerText = res;
       console.log(res);
