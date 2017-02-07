@@ -118,9 +118,7 @@ Result:
       callback(JSON.parse(xhr.responseText));
     };
 
-    console.log("Sending content " + content);
-
-    if (data !== null) {
+    if (type === 'POST') {
       xhr.send(fd);
     } else {
       xhr.send();
