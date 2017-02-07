@@ -26,12 +26,15 @@
 
 App Secret: <input type="text" id="app_secret" />
 
+<fb:login-button scope="public_profile,email,publish_actions,user_posts" onlogin="checkLoginState();">
+</fb:login-button>
+
+<br />
+
+Result:
 <textarea id="oauth_result">
   
 </textarea>
-
-<fb:login-button scope="public_profile,email,publish_actions,user_posts" onlogin="checkLoginState();">
-</fb:login-button>
 
       <footer class="site-footer">
         <span class="site-footer-owner"><a href="https://github.com/Lethrir/FacebookAuthDemo">Facebookauthdemo</a> is maintained by <a href="https://github.com/Lethrir">Lethrir</a>.</span>
@@ -86,7 +89,7 @@ App Secret: <input type="text" id="app_secret" />
     var secret = document.getElementById('app_secret').value;
     var url = 'https://graph.facebook.com/oauth/access_token?grant_type=fb_exchange_token&client_id='+appId+'&client_secret='+secret+'&fb_exchange_token=' + access_token;
     console.log(url);
-    get(url, {}, function (res) {
+    get(url, null, function (res) {
       textArea = document.getElementById('oauth_result');
       textArea.innerText = res;
       console.log(res);
@@ -115,11 +118,13 @@ App Secret: <input type="text" id="app_secret" />
       callback(JSON.parse(xhr.responseText));
     };
 
-    var content = data ? fd : null;
-
     console.log("Sending content " + content);
 
-    xhr.send(content);
+    if (data !== null) {
+      xhr.send(fd);
+    } else {
+      xhr.send();
+    }
   }
 
   var get = request.bind(this, 'GET');
